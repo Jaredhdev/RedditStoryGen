@@ -11,10 +11,11 @@ authenticator = IAMAuthenticator(api_key)
 
 access_token = authenticator.token_manager.get_token()
 
-ws_url = "wss://api.au-syd.text-to-speech.watson.cloud.ibm.com/instances/c6e2342d-5802-4efc-96d1-682b5fa6fe75"
 
-voice = "en-US_KevinV3Voice"
-rate = 1.2
+ws_url = "wss://api.au-syd.text-to-speech.watson.cloud.ibm.com/instances/93188035-3405-41a7-8f3d-fb9072efb9ad"
+
+voice = "en-US_MichaelExpressive"
+rate = 1
 
 wsURI = f"{ws_url}/v1/synthesize?access_token={access_token}&voice={voice}&rate_percentage={rate}"
 
@@ -24,7 +25,7 @@ def text_to_speech(text: str, out_path: str) -> tuple:
 
     message = {
         'text': text,
-        'accept': 'audio/mp3',
+        'accept': 'audio/mpeg',
         'timings': ['words']
     }
 
