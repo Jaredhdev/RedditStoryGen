@@ -22,3 +22,5 @@ tqdm==4.65.0
 update-checker==0.18.0
 urllib3==1.26.16
 websocket-client==1.1.0
+
+Flask~=2.3.2
