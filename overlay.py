@@ -7,17 +7,16 @@ import os
 from datetime import datetime
 
 
-def compose_video(video_path: str, audio_path: str, title_audio_path: str, images_folder: str, times: list,
-                  out_folder: str) -> None:
-    title_audio = AudioFileClip(title_audio_path)
-    audio = AudioFileClip(audio_path).set_start(title_audio.duration + 1)
+def compose_video(dir_path: str, times: list) -> None:
+    title_audio = AudioFileClip(f'{dir_path}/title.mpeg')
+    audio = AudioFileClip(f'{dir_path}/text.mpeg').set_start(title_audio.duration + 1)
 
     final_audio = CompositeAudioClip([title_audio, audio])
 
-    video = VideoFileClip(video_path).subclip(0, final_audio.duration + 1)
+    video = VideoFileClip('./videos/Gameplay15.mp4').subclip(0, final_audio.duration + 1)
     video = video.set_audio(final_audio)
 
-    title_img_file = f"{images_folder}/img_title.png"
+    title_img_file = f"{dir_path}/img_title.png"
     title_img = ImageClip(title_img_file) \
         .set_duration(title_audio.duration) \
         .set_start(0) \
@@ -29,7 +28,7 @@ def compose_video(video_path: str, audio_path: str, title_audio_path: str, image
     for i in range(len(times)):
         start = times[i][0]
         duration = times[i][1] - start
-        img_file = f"{images_folder}/img_{i}.png"
+        img_file = f"{dir_path}/img_{i}.png"
         img_clip = ImageClip(img_file) \
             .set_duration(duration) \
             .set_start(title_audio.duration + 1 + start) \
@@ -39,5 +38,4 @@ def compose_video(video_path: str, audio_path: str, title_audio_path: str, image
 
     final = CompositeVideoClip(clips)
 
-    timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-    final.write_videofile(f'{out_folder}/out_{timestamp}.mp4', codec='mpeg4', audio_codec='aac', fps=60)
+    final.write_videofile(f'{dir_path}/output.mp4', codec='mpeg4', audio_codec='aac', fps=60)

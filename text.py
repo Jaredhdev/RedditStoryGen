@@ -54,4 +54,3 @@ def create_images(text_array: list, folder: str) -> None:
 
 
 
-create_title_img('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ultricies dui sit amet nunc volutpat molestie. Curabitur ac sagittis diam. Praesent tincidunt blandit nisl sit amet congue. Ut luctus mauris eu augue gravida eleifend. Nunc volutpat urna non nibh placerat', './images')

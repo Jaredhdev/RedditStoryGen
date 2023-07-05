@@ -1,4 +1,7 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, url_for
+import uuid
+import shutil
+import os
 
 from text import create_images, create_title_img
 from overlay import compose_video
@@ -14,18 +17,31 @@ def generate():
         title = data['title']
         text = data['text']
 
-        text_to_speech(title, './audio/title.mpeg')
-        words, times = text_to_speech(text, './audio/output.mpeg')
+        unique_id = str(uuid.uuid4())
+        dir_path = './userdirs/' + unique_id
+        os.makedirs(dir_path)
 
-        images_folder = './images'
-        create_title_img(title, images_folder)
-        create_images(words, images_folder)
+        text_to_speech(title, f'{dir_path}/title.mpeg')
+        words, times = text_to_speech(text, f'{dir_path}/text.mpeg')
+        create_title_img(title, dir_path)
+        create_images(words, dir_path)
+        compose_video(dir_path, times)
 
-        compose_video('./videos/Gameplay15.mp4', './audio/output.mpeg', './audio/title.mpeg', images_folder, times,
-                      './output')
+        response = {
+            'success': True,
+            'message': 'Video Generated',
+            'unique_id': unique_id,  # Send unique_id to user
+            'download_url': url_for('getvideo', unique_id=unique_id, _external=True)  # Sending back the full URL
+        }
+        return jsonify(response), 200
 
-        # return the name of the file or any response you want
-        return jsonify({'success': True, 'message': 'Generate Completed'}), 200
+
+@app.route('/getvideo/<unique_id>', methods=['GET'])
+def getvideo(unique_id):
+    # Using the unique_id to determine file path
+    video_path = f'./userdirs/{unique_id}/output.mp4'
+
+    return send_file(video_path, mimetype='video/mp4', as_attachment=True)
 
 
 if __name__ == '__main__':
