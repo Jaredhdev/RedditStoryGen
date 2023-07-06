@@ -35,3 +35,4 @@ Werkzeug==2.3.6
 zipp==3.15.0
 
 gdown~=4.7.1
+boto3~=1.27.1
