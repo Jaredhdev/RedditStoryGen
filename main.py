@@ -6,8 +6,10 @@ import os
 from text import create_images, create_title_img
 from overlay import compose_video
 from tts import text_to_speech
+from video import download_video
 
 app = Flask(__name__)
+download_video()
 
 
 @app.route('/generate', methods=['POST'])
@@ -42,4 +44,3 @@ def getvideo(unique_id):
     video_path = f'./userdirs/{unique_id}/output.mp4'
 
     return send_file(video_path, mimetype='video/mp4', as_attachment=True)
-
