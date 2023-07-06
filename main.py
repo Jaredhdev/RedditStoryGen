@@ -6,6 +6,7 @@ import os
 from text import create_images, create_title_img
 from overlay import compose_video
 from tts import text_to_speech
+from video import download_video
 
 app = Flask(__name__)
 
@@ -21,6 +22,7 @@ def generate():
         dir_path = './userdirs/' + unique_id
         os.makedirs(dir_path)
 
+        download_video()
         text_to_speech(title, f'{dir_path}/title.mpeg')
         words, times = text_to_speech(text, f'{dir_path}/text.mpeg')
         create_title_img(title, dir_path)

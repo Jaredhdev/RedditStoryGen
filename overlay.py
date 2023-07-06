@@ -13,7 +13,7 @@ def compose_video(dir_path: str, times: list) -> None:
 
     final_audio = CompositeAudioClip([title_audio, audio])
 
-    video = VideoFileClip('./videos/Gameplay15.mp4').subclip(0, final_audio.duration + 1)
+    video = VideoFileClip('./videos/minecraft15.mp4').subclip(0, final_audio.duration + 1)
     video = video.set_audio(final_audio)
 
     title_img_file = f"{dir_path}/img_title.png"
