@@ -4,16 +4,15 @@ from moviepy.video.io.VideoFileClip import VideoFileClip
 from moviepy.editor import AudioFileClip
 from moviepy.editor import CompositeAudioClip
 import os
-from datetime import datetime
 
 
-def compose_video(dir_path: str, times: list) -> None:
+def compose_video(dir_path: str, times: list, unique_id:str) -> None:
     title_audio = AudioFileClip(f'{dir_path}/title.mpeg')
     audio = AudioFileClip(f'{dir_path}/text.mpeg').set_start(title_audio.duration + 1)
 
     final_audio = CompositeAudioClip([title_audio, audio])
 
-    video = VideoFileClip('./videos/Gameplay15.mp4').subclip(0, final_audio.duration + 1)
+    video = VideoFileClip('/tmp/minecraft15.mp4').subclip(0, final_audio.duration + 1)
     video = video.set_audio(final_audio)
 
     title_img_file = f"{dir_path}/img_title.png"
@@ -37,5 +36,6 @@ def compose_video(dir_path: str, times: list) -> None:
         os.remove(img_file)
 
     final = CompositeVideoClip(clips)
-
-    final.write_videofile(f'{dir_path}/output.mp4', codec='mpeg4', audio_codec='aac', fps=60)
+    print('Got here')
+    final.write_videofile(f'{dir_path}/{unique_id}.mp4', codec='mpeg4', audio_codec='aac', fps=60)
+    print('done')

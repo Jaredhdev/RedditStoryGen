@@ -1,11 +1,11 @@
 from flask import Flask, request, jsonify, send_file, url_for
+from video import get_link
 import uuid
 import shutil
 import os
+import csv
 
-from text import create_images, create_title_img
-from overlay import compose_video
-from tts import text_to_speech
+from tasks import process_video
 
 app = Flask(__name__)
 
@@ -18,28 +18,21 @@ def generate():
         text = data['text']
 
         unique_id = str(uuid.uuid4())
-        dir_path = './userdirs/' + unique_id
-        os.makedirs(dir_path)
 
-        text_to_speech(title, f'{dir_path}/title.mpeg')
-        words, times = text_to_speech(text, f'{dir_path}/text.mpeg')
-        create_title_img(title, dir_path)
-        create_images(words, dir_path)
-        compose_video(dir_path, times)
+        process_video.delay(title, text, unique_id)
 
         response = {
             'success': True,
-            'message': 'Video Generated',
-            'unique_id': unique_id,  # Send unique_id to user
-            'download_url': url_for('getvideo', unique_id=unique_id, _external=True)  # Sending back the full URL
+            'message': 'Video Generation Job Enqueued',
+            'job_id': unique_id
         }
+
         return jsonify(response), 200
 
 
 @app.route('/getvideo/<unique_id>', methods=['GET'])
 def getvideo(unique_id):
-    # Using the unique_id to determine file path
-    video_path = f'./userdirs/{unique_id}/output.mp4'
 
-    return send_file(video_path, mimetype='video/mp4', as_attachment=True)
-
+    link = get_link(f"{unique_id}.mp4")
+    print(link)
+    return link
