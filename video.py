@@ -1,15 +1,10 @@
 import os
-from pytube import YouTube
+import gdown
 
 
 def download_video():
-    youtube_url = 'https://www.youtube.com/watch?v=t2rfSQ9s92s'
+    url = 'https://drive.google.com/uc?id=1weRn9yhOsq1Sf8t8lz6yg6Sy-ZOOj3o7'
+    output = 'videos/minecraft15.mp4'  # path to where you want the file
 
-    download_path = '/videos'
-
-    filename = 'minecraft15.mp4'
-
-    youtube = YouTube(youtube_url)
-
-    if not os.path.exists(os.path.join(download_path, filename)):
-        youtube.streams.get_highest_resolution().download(output_path=download_path, filename=filename)
+    if not os.path.exists(output):
+        gdown.download(url, output, quiet=False)
