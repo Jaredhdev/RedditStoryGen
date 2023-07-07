@@ -35,6 +35,7 @@ def generate():
             'unique_id': unique_id,  # Send unique_id to user
             'download_url': url_for('getvideo', unique_id=unique_id, _external=True)  # Sending back the full URL
         }
+        print(response)
         return jsonify(response), 200
 
 
