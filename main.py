@@ -9,7 +9,6 @@ from tts import text_to_speech
 from video import download_video
 
 app = Flask(__name__)
-download_video()
 
 
 @app.route('/generate', methods=['POST'])
@@ -19,6 +18,7 @@ def generate():
         title = data['title']
         text = data['text']
 
+        download_video()
         unique_id = str(uuid.uuid4())
         dir_path = './userdirs/' + unique_id
         os.makedirs(dir_path)
