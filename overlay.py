@@ -39,3 +39,4 @@ def compose_video(dir_path: str, times: list) -> None:
     final = CompositeVideoClip(clips)
 
     final.write_videofile(f'{dir_path}/output.mp4', codec='mpeg4', audio_codec='aac', fps=60)
+    print('done')
