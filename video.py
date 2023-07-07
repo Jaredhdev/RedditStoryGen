@@ -17,4 +17,7 @@ def download_video():
 
     if not os.path.exists(path):
         s3.download_file(bucket_name, filename, path)
+        print('File Downloaded')
+    else:
+        print('File already downloaded')
 
