@@ -21,3 +21,4 @@ def download_video():
     else:
         print('File already downloaded')
 
+    print(os.getcwd())
