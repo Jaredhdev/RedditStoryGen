@@ -20,7 +20,7 @@ def generate():
 
         download_video()
         unique_id = str(uuid.uuid4())
-        dir_path = './userdirs/' + unique_id
+        dir_path = './' + unique_id
         os.makedirs(dir_path)
 
         text_to_speech(title, f'{dir_path}/title.mpeg')
