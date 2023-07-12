@@ -4,7 +4,6 @@ from moviepy.video.io.VideoFileClip import VideoFileClip
 from moviepy.editor import AudioFileClip
 from moviepy.editor import CompositeAudioClip
 import os
-from datetime import datetime
 
 
 def compose_video(dir_path: str, times: list, unique_id:str) -> None:
