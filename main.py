@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, send_file, url_for
+from video import get_link
 import uuid
 import shutil
 import os
@@ -31,11 +32,7 @@ def generate():
 
 @app.route('/getvideo/<unique_id>', methods=['GET'])
 def getvideo(unique_id):
-    with open('links.csv', 'r') as file:
-        links = dict(csv.DictReader(file))
 
-    link = links.get(unique_id)
-
-    print(links)
+    link = get_link(f"{unique_id}.mp4")
     print(link)
     return link
