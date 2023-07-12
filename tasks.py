@@ -1,5 +1,6 @@
 from celery import Celery
 import os
+import csv
 
 from text import create_images, create_title_img
 from overlay import compose_video
@@ -28,6 +29,9 @@ def process_video(title: str, text: str, unique_id: str):
     create_title_img(title, dir_path)
     create_images(words, dir_path)
     compose_video(dir_path, times, unique_id)
-    upload_video(f"{dir_path}/{unique_id}.mp4")
+    link = upload_video(f"{dir_path}/{unique_id}.mp4")
+
+    with open('links.csv', 'a', newline='') as links:
+        csv.writer(links).writerow([unique_id, link])
 
     print('Video generation completed.')

@@ -43,7 +43,12 @@ def upload_video(file_path):
     s3.upload_file(file_path, bucket_name, file_name)
     print('File Uploaded')
 
+    expiration = 300  # Expiration time of the presigned URL in seconds
 
-# Example usage:
-video_file_path = './images/title_bottom.jpg'
-upload_video(video_file_path)
+    presigned_url = s3.generate_presigned_url(
+        'get_object',
+        Params={'Bucket': bucket_name, 'Key': file_name},
+        ExpiresIn=expiration
+    )
+
+    return presigned_url
