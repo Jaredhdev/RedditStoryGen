@@ -25,3 +25,25 @@ def download_video():
     else:
         print('File already downloaded')
 
+
+def upload_video(file_path):
+    session = boto3.session.Session()
+    load_dotenv()
+    aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
+    aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
+    s3 = session.client('s3',
+                        region_name='us-west-2',
+                        endpoint_url='https://s3.us-west-2.amazonaws.com',
+                        aws_access_key_id=aws_access_key_id,
+                        aws_secret_access_key=aws_secret_access_key)
+
+    bucket_name = 'reddit-story-gen'
+
+    file_name = os.path.basename(file_path)
+    s3.upload_file(file_path, bucket_name, file_name)
+    print('File Uploaded')
+
+
+# Example usage:
+video_file_path = './images/title_bottom.jpg'
+upload_video(video_file_path)

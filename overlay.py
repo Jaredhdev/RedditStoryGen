@@ -7,7 +7,7 @@ import os
 from datetime import datetime
 
 
-def compose_video(dir_path: str, times: list) -> None:
+def compose_video(dir_path: str, times: list, unique_id:str) -> None:
     title_audio = AudioFileClip(f'{dir_path}/title.mpeg')
     audio = AudioFileClip(f'{dir_path}/text.mpeg').set_start(title_audio.duration + 1)
 
@@ -38,5 +38,5 @@ def compose_video(dir_path: str, times: list) -> None:
 
     final = CompositeVideoClip(clips)
     print('Got here')
-    final.write_videofile(f'{dir_path}/output.mp4', codec='mpeg4', audio_codec='aac', fps=60)
+    final.write_videofile(f'{dir_path}/{unique_id}.mp4', codec='mpeg4', audio_codec='aac', fps=60)
     print('done')

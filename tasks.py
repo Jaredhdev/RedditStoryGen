@@ -4,7 +4,7 @@ import os
 from text import create_images, create_title_img
 from overlay import compose_video
 from tts import text_to_speech
-from video import download_video
+from video import download_video, upload_video
 
 # Initialize Celery
 celery = Celery(__name__)
@@ -27,6 +27,7 @@ def process_video(title: str, text: str, unique_id: str):
     words, times = text_to_speech(text, f'{dir_path}/text.mpeg')
     create_title_img(title, dir_path)
     create_images(words, dir_path)
-    compose_video(dir_path, times)
+    compose_video(dir_path, times, unique_id)
+    upload_video(f"{dir_path}/{unique_id}.mp4")
 
     print('Video generation completed.')
