@@ -31,6 +31,6 @@ def generate():
 @app.route('/getvideo/<unique_id>', methods=['GET'])
 def getvideo(unique_id):
     # Using the unique_id to determine file path
-    video_path = f'./userdirs/{unique_id}/output.mp4'
+    video_path = f'./{unique_id}/output.mp4'
 
     return send_file(video_path, mimetype='video/mp4', as_attachment=True)
