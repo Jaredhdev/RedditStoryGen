@@ -36,5 +36,6 @@ def getvideo(unique_id):
 
     link = links.get(unique_id)
 
+    print(links)
     print(link)
     return link
